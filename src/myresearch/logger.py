@@ -3,7 +3,7 @@ import asyncio
 
 
 async def send_message(websocket, message):
-    await websocket.send_text(message)
+    await websocket.send_json({"type": "log", "payload": message})
 
 
 class WebSocketHandler(logging.Handler):

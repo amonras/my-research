@@ -3,24 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Runner</title>
+    <title>Research Paper Command Runner</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <button id="runButton">Run Command</button>
-    <div id="output"></div>
+    <div class="container">
+        <h1>Research Paper Command Runner</h1>
+        <p>Enter details below to scrape and summarize your research papers.</p>
+        <div class="input-group">
+            <input type="text" id="name" name="name" placeholder="Search Name">
+            <input type="text" id="query" name="query" placeholder="Query String">
+            <input type="number" id="limit" name="limit" placeholder="Limit (Default: 10)" value="10">
+            <button id="runButton">Run Command</button>
+        </div>
+        <div id="output" class="hidden"></div>
+        <div id="result" class="hidden"></div>
+    </div>
 
     <script>
         var socket = new WebSocket("ws://" + window.location.host + "/ws");
+        var outputDiv = document.getElementById("output");
+        var finalResultDiv = document.getElementById("result");
 
         socket.onmessage = function (event) {
-            var outputDiv = document.getElementById("output");
-            outputDiv.innerHTML += "<p>" + event.data + "</p>";
-            outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to the latest message
+            console.log("Message received:", event.data);  // Debugging log
+            var message = JSON.parse(event.data);
+
+            if (message.type === "log") {
+                if (outputDiv.classList.contains("hidden")) {
+                    outputDiv.classList.remove("hidden");
+                }
+                outputDiv.innerHTML += "<p>" + message.payload + "</p>";
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+            } else if (message.type === "result") {
+                finalResultDiv.innerHTML = message.payload;
+                finalResultDiv.classList.remove("hidden");
+                outputDiv.classList.add("hidden");
+            }
         };
 
         document.getElementById("runButton").addEventListener("click", function () {
-            socket.send("Run Command");
+            var name = document.getElementById("name").value;
+            var query = document.getElementById("query").value;
+            var limit = document.getElementById("limit").value;
+
+            var commandData = {
+                command: "Run Command",
+                parameters: {
+                    name: name,
+                    query: query,
+                    limit: limit
+                }
+            };
+            socket.send(JSON.stringify(commandData));
+            console.log("Command sent");  // Debugging log
         });
     </script>
 </body>

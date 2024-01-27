@@ -1,6 +1,5 @@
 import logging
 import threading
-from concurrent.futures import ThreadPoolExecutor
 
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
@@ -28,14 +27,13 @@ def run_function(logger, result_container):
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    await websocket.send_text("WebSocket Connection Established")
 
     try:
         result_container = {}
         while True:
             data = await websocket.receive_text()
 
-            if data == "Run Command":
+            if data is not None:
                 loop = asyncio.get_running_loop()
                 logger = logging.getLogger("custom_logger")
                 logger.setLevel(logging.INFO)
@@ -52,7 +50,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
                 # Send the final result
                 final_result = result_container.get("result", "No result")
-                await websocket.send_text(final_result)
+                await websocket.send_json({"type": "result", "payload": final_result})
     finally:
         await websocket.send_text("Function completed.")
         await websocket.close()
