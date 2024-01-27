@@ -1,8 +1,16 @@
-from myresearch.scraper import get_pdf_content, download_and_read_pdf
+from pytest import fixture
+
+from myresearch.scraper import Scraper, get_pdf_content
+
+
+@fixture
+def scraper():
+    scraper = Scraper()
+    yield scraper
 
 
 class TestPdfReader:
-    def test_reader(self, random_pdf):
+    def test_reader(self, scraper, random_pdf):
         text = get_pdf_content(random_pdf)
 
         assert "quantum" in text

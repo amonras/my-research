@@ -6,7 +6,7 @@ resources = Path(__file__).parent / "resources"
 
 @fixture
 def first_page():
-    with open("resources/first_page.html", "r") as f:
+    with open(resources / "first_page.html", "r") as f:
         text = f.read()
 
     yield text
