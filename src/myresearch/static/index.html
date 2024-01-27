@@ -17,13 +17,14 @@
             <button id="runButton">Run Command</button>
         </div>
         <div id="output" class="hidden"></div>
-        <div id="result" class="hidden"></div>
+        <div id="resultContainer" class="hidden"></div>
+        <div id="svgContainer" class="hidden"></div>
     </div>
 
     <script>
         var socket = new WebSocket("ws://" + window.location.host + "/ws");
         var outputDiv = document.getElementById("output");
-        var finalResultDiv = document.getElementById("result");
+        var finalResultDiv = document.getElementById("resultContainer");
 
         socket.onmessage = function (event) {
             console.log("Message received:", event.data);  // Debugging log
@@ -36,9 +37,11 @@
                 outputDiv.innerHTML += "<p>" + message.payload + "</p>";
                 outputDiv.scrollTop = outputDiv.scrollHeight;
             } else if (message.type === "result") {
+                outputDiv.classList.add("hidden");
+
                 finalResultDiv.innerHTML = message.payload;
                 finalResultDiv.classList.remove("hidden");
-                outputDiv.classList.add("hidden");
+
             }
         };
 

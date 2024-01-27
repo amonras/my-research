@@ -19,3 +19,4 @@ class WebSocketHandler(logging.Handler):
         except Exception as e:
             # Handle exceptions (optional)
             raise e
+

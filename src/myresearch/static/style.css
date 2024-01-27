@@ -43,6 +43,12 @@ body {
     background-color: #0056b3;
 }
 
+#resultContainer {
+    /* Other styles... */
+    width: 100%; /* or max-width: 100%; if you want to maintain the original size up to full width */
+    height: auto; /* maintain aspect ratio */
+}
+
 #output {
     height: 300px;
     overflow-y: auto;
