@@ -1,7 +1,5 @@
 import pandas as pd
 
-from myresearch.scraper import scrape
-
 repl = {'proof': 'Proof', 'theorem': 'Theorem', 'lemma': 'Lemma', 'Eq ': 'equation ',
             'eq': 'equation ', 'states': 'state', 'Fig': 'Figure',
             'CP': 'completely positive', 'measurements': 'measurement', 'Eqs': 'equations',

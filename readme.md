@@ -1,8 +1,8 @@
 # MyResearch web scaper
 This tool allows you to download from [arXiv.org](https://arxiv.org/) the body of your research and extract insights about it.
 
-At the moment only word count and wordcloud is available.
-
+## Command line interface
+A command line interface is available with the `myresearch` script
 ```
 $ myresearch --help
 usage: myresearch [-h] (--name NAME | --query QUERY) [--limit LIMIT] [--path PATH] [--wordcount WORDCOUNT] [--wordcloud WORDCLOUD]
@@ -32,7 +32,20 @@ Wordcloud written to wc.png
 this generates the file `wc.png` in the local directory:
 ![Word Cloud](wc.png)
 
-### Notes:
+## Web server
+This project can be hosted as a web service. For this, after installing, just run 
+```
+$ uvicorn myresearch.server:app --reload
+INFO:     Will watch for changes in these directories: ['/Users/amonras/PycharmProjects/my-research']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [90101] using WatchFiles
+INFO:     Started server process [90103]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+```
+to launch the server. 
+## Notes:
+At the moment only word count and wordcloud is available.
 At the moment only the first arxiv page will be scrapped.
 
 ## Installation
