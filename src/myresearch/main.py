@@ -1,5 +1,4 @@
 import argparse
-import asyncio
 import os
 import time
 from pathlib import Path
@@ -10,7 +9,7 @@ from myresearch.render import create_wordcloud
 from myresearch.wordcount import count
 from myresearch.scraper import scrape
 from tqdm.auto import tqdm
-
+from logging import Logger
 
 import logging
 
@@ -27,7 +26,9 @@ class ExplicitDefaultsHelpFormatter(argparse.ArgumentDefaultsHelpFormatter):
         return super()._get_help_string(action)
 
 
-def custom_function(logger):
+def custom_function(custom_logger: Logger = None):
+    logger = custom_logger or logging.getLogger(__name__)
+
     for i in tqdm(range(10), desc='Progress'):
         # Your processing logic here
         time.sleep(0.5)

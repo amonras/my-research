@@ -1,0 +1,9 @@
+#output {
+    height: 300px; /* Adjust the height as needed */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #ddd; /* Optional: adds a border */
+    padding: 10px; /* Optional: adds some padding inside the box */
+    background-color: #f4f4f4; /* Optional: background color */
+    margin: 10px 0; /* Optional: adds margin above and below the box */
+    font-family: monospace; /* Optional: changes the font to monospace */
+}

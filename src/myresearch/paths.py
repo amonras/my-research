@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import Optional
 
 directory = Path(__file__).parent.parent.parent / "data"
-
 resources = Path(__file__).parent / "resources"
+static = Path(__file__).parent / "static"
 
 
 def filename(url: str):

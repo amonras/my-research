@@ -1,29 +1,28 @@
 import logging
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from functools import partial
 
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import HTMLResponse
-from starlette.websockets import WebSocketState
+from starlette.staticfiles import StaticFiles
 
 from myresearch.logger import WebSocketHandler
 from myresearch.main import custom_function
 import asyncio
 
-from myresearch.paths import resources
+from myresearch.paths import static
 
 app = FastAPI()
-executor = ThreadPoolExecutor()
+app.mount("/static", StaticFiles(directory=static), name="static")
 
 
 @app.get("/")
 def read_root():
-    return HTMLResponse(content=open(resources / "index.html", "r").read())
+    return HTMLResponse(content=open(static / "index.html", "r").read())
 
 
 def run_function(logger, result_container):
-    result_container["result"] = custom_function(logger)
+    result_container["result"] = custom_function(custom_logger=logger)
 
 
 @app.websocket("/ws")
