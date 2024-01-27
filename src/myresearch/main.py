@@ -1,5 +1,7 @@
 import argparse
+import asyncio
 import os
+import time
 from pathlib import Path
 
 import numpy as np
@@ -7,11 +9,15 @@ import numpy as np
 from myresearch.render import create_wordcloud
 from myresearch.wordcount import count
 from myresearch.scraper import scrape
+from tqdm.auto import tqdm
+
 
 import logging
 
 logging.basicConfig(level=logging.INFO,
                     format='[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s')
+
+logger = logging.getLogger(__name__)
 
 
 class ExplicitDefaultsHelpFormatter(argparse.ArgumentDefaultsHelpFormatter):
@@ -19,6 +25,16 @@ class ExplicitDefaultsHelpFormatter(argparse.ArgumentDefaultsHelpFormatter):
         if action.default is None or action.default is False:
             return action.help
         return super()._get_help_string(action)
+
+
+def custom_function(logger):
+    for i in tqdm(range(10), desc='Progress'):
+        # Your processing logic here
+        time.sleep(0.5)
+        # Send progress to the client using WebSocket
+        logger.info(f'Processing step {i}')
+    logger.info("Custom function completed")
+    return 'Process completed.'
 
 
 def run(args):

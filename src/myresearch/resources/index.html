@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Runner</title>
+</head>
+<body>
+    <button id="runButton">Run Command</button>
+    <div id="output"></div>
+
+    <script>
+        var socket = new WebSocket("ws://" + window.location.host + "/ws");
+
+        socket.onmessage = function (event) {
+            var outputDiv = document.getElementById("output");
+            outputDiv.innerHTML += "<p>" + event.data + "</p>";
+        };
+
+        document.getElementById("runButton").addEventListener("click", function () {
+            socket.send("Run Command");
+        });
+    </script>
+</body>
+</html>
